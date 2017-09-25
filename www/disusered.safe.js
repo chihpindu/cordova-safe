@@ -60,7 +60,7 @@ var safe = {
  */
 function onSuccess(success, path) {
   if (typeof success === 'function') {
-    success(fileObj);
+    success();
   }
 }
 
