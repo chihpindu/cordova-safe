@@ -1,3 +1,4 @@
+cordova.define("cordova-safe.safe", function(require, exports, module) {
 /**
  * disusered.safe.js
  *
@@ -60,13 +61,7 @@ var safe = {
  */
 function onSuccess(success, path) {
   if (typeof success === 'function') {
-    window.requestFileSystem(window.PERSISTENT, 0, function(fs) {
-      fs.root.getFile(path.split('/').pop(), {create: false}, function(file) {
-        file.file(function(fileObj) {
-          success(fileObj);
-        }, onError);
-      }, onError);
-    }, onError);
+    success(fileObj);
   }
 }
 
@@ -83,3 +78,5 @@ function onError(error, code) {
 }
 
 exports.safe = safe;
+
+});
