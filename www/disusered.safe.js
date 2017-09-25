@@ -1,4 +1,3 @@
-cordova.define("cordova-safe.safe", function(require, exports, module) {
 /**
  * disusered.safe.js
  *
@@ -78,5 +77,3 @@ function onError(error, code) {
 }
 
 exports.safe = safe;
-
-});
