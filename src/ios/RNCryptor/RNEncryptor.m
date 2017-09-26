@@ -24,10 +24,11 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-
-#import "RNCryptor+Private.h"
 #import "RNEncryptor.h"
+#import "RNCryptor+Private.h"
 #import "RNCryptorEngine.h"
+
+#import <CommonCrypto/CommonHMAC.h>
 
 @interface RNEncryptor ()
 @property (nonatomic, readwrite, strong) NSData *encryptionSalt;
@@ -154,7 +155,7 @@
                          HMACSalt:(NSData *)anHMACSalt
                           handler:(RNCryptorHandler)aHandler;
 {
-  NSParameterAssert(aPassword);
+  NSParameterAssert(aPassword.length > 0);  // We'll go forward, but this is undefined behavior for RNCryptor
   NSParameterAssert(anIV);
   NSParameterAssert(anEncryptionSalt);
   NSParameterAssert(anHMACSalt);
