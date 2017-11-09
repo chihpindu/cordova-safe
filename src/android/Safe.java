@@ -146,16 +146,33 @@ public class Safe extends CordovaPlugin {
 
   private void writeFile(InputStream inputStream, OutputStream outputStream, CallbackContext callbackContext) {
     try {
-      // create new byte object with source file length
-      byte[] data = new byte[(int) SOURCE_FILE.length()];
-
-      // read contents of source file byte by byte
+      int totalSize = (int) SOURCE_FILE.length();
+      int limitLength = 50000000; //Max handle length
+      int handleLength = 0;       //current handle length
+      int currIdx = 0;            //index
+      int totalIndex = totalSize / limitLength; //total times
       int buffer = 0;
-      while ((buffer = inputStream.read(data)) > 0) {
-        // write contents to encrypted output stream
-        outputStream.write(data, 0, buffer);
-        outputStream.flush();
-      }
+      byte[] data;
+
+      while((currIdx <= totalIndex)){
+        if(currIdx == totalIndex){
+          //final wtite
+          handleLength = (totalSize - (limitLength*currIdx));
+        }
+        else{
+          handleLength = limitLength;
+        }
+
+        data = new byte[handleLength];
+
+        while ((buffer = inputStream.read(data, 0, handleLength)) > 0) {        
+          // write contents to encrypted output stream
+          outputStream.write(data, currIdx*limitLength, buffer);
+          outputStream.flush();
+        }
+
+        currIdx = currIdx + 1;
+      }      
 
       // close output stream
       outputStream.close();
